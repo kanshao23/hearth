@@ -20,12 +20,24 @@ private struct GallerySection: Identifiable {
 struct GalleryView: View {
     @Environment(\.tk) private var tk
     @EnvironmentObject private var theme: ThemeManager
-    @State private var selected = UserDefaults.standard.string(forKey: Self.selKey) ?? "menubar"
+    @State private var selected: String
     @State private var search = ""
 
     private static let selKey = "gallery-selected"
 
-    private let allSections: [GallerySection] = [
+    /// `initialScreen` (from a `--screen <id>` launch arg) wins over the
+    /// persisted selection; falls back to the first screen.
+    init(initialScreen: String? = nil) {
+        let persisted = UserDefaults.standard.string(forKey: Self.selKey)
+        let valid = initialScreen.flatMap { id in Self.allSections.flatMap(\.boards).first { $0.id == id }?.id }
+        _selected = State(initialValue: valid ?? persisted ?? "menubar")
+    }
+
+    /// `(id, label)` for every screen — used by the `--list` launch arg.
+    static let screenList: [(id: String, label: String)] =
+        allSections.flatMap { $0.boards.map { ($0.id, $0.label) } }
+
+    private static let allSections: [GallerySection] = [
         GallerySection(id: "surfaces", title: "System surfaces",
                        subtitle: "Menubar popover · approval sheet · notification cards", boards: [
             Artboard(id: "menubar", label: "02 · Menubar popover", w: 300, h: 490) { AnyView(MenubarScreen()) },
@@ -56,15 +68,15 @@ struct GalleryView: View {
     ]
 
     private var sections: [GallerySection] {
-        guard !search.isEmpty else { return allSections }
+        guard !search.isEmpty else { return Self.allSections }
         let q = search.lowercased()
-        return allSections.compactMap { sec in
+        return Self.allSections.compactMap { sec in
             let hits = sec.boards.filter { $0.label.lowercased().contains(q) || sec.title.lowercased().contains(q) }
             return hits.isEmpty ? nil : GallerySection(id: sec.id, title: sec.title, subtitle: sec.subtitle, boards: hits)
         }
     }
     private var flatBoards: [Artboard] { sections.flatMap(\.boards) }
-    private var current: Artboard? { allSections.flatMap(\.boards).first { $0.id == selected } }
+    private var current: Artboard? { Self.allSections.flatMap(\.boards).first { $0.id == selected } }
 
     var body: some View {
         HStack(spacing: 0) {
