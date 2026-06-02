@@ -49,6 +49,10 @@ struct GalleryView: View {
             Artboard(id: "ob2", label: "08b · Permissions", w: 720, h: 520) { AnyView(OnboardingStep2()) },
             Artboard(id: "ob3", label: "08c · First skill", w: 720, h: 520) { AnyView(OnboardingStep3()) },
         ]),
+        GallerySection(id: "settings", title: "Settings",
+                       subtitle: "General · providers · permissions · sandbox · about", boards: [
+            Artboard(id: "settings", label: "09 · Settings", w: 760, h: 560) { AnyView(SettingsScreen()) },
+        ]),
     ]
 
     private var sections: [GallerySection] {
@@ -95,7 +99,7 @@ struct GalleryView: View {
                 LogoMark(size: 18).foregroundStyle(tk.amber)
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Hearth").font(F.sans(14, .semibold)).foregroundStyle(tk.fg)
-                    Text("design · 7 screens").font(F.sans(10.5)).foregroundStyle(tk.fg3)
+                    Text("design · 8 screens").font(F.sans(10.5)).foregroundStyle(tk.fg3)
                 }
                 Spacer()
                 ThemeToggle(size: 14)

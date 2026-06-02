@@ -107,6 +107,7 @@ sidebar.
 | **06** | **Command palette** | 640×480 | `⌘⇧M` fuzzy search across skills / sessions / files / actions, grouped, with keyboard hints. |
 | **07** | **Notifications** | 380 wide | Three Notification Center cards — success, approval-needed, failure — with translucent overlay styling. |
 | **08a–c** | **Onboarding** | 720×520 | Three-step first-run wizard: connect a provider (+ API key), grant permissions, pick a starter skill. |
+| **09** | **Settings** ✨ | 760×560 | Sidebar-nav preferences — General (live theme toggle), Providers, Permissions, Sandbox default level, About. *Net-new screen, not in the original design — built in the Hearth design language.* |
 
 ### Interactions wired up (main window)
 
