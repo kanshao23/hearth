@@ -44,6 +44,8 @@ struct ConversationPane: View {
                     HIcon(rootUnread ? Ico.starFilled : Ico.star, size: 14)
                         .foregroundStyle(rootUnread ? tk.amber : tk.fg4)
                 }.buttonStyle(.plain)
+                .help(rootUnread ? "Mark as read" : "Mark as unread")
+                .accessibilityLabel(rootUnread ? "Mark as read" : "Mark as unread")
                 WorkspaceGlyph(workspace: ws, size: 16)
                 Text(ws.label).font(F.sans(13)).foregroundStyle(tk.fg3)
                 HIcon(Ico.chevron, size: 10).foregroundStyle(tk.fg4)
@@ -55,6 +57,8 @@ struct ConversationPane: View {
                 }
                 Spacer()
                 HButton(kind: .ghost, hPad: 8, vPad: 4) { HIcon(Ico.dots, size: 12) }
+                    .help("More — model, sandbox, context")
+                    .accessibilityLabel("Session options")
             }
             if let wt = root.worktree {
                 HStack(spacing: 6) {

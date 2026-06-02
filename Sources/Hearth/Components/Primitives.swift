@@ -170,18 +170,29 @@ struct Spinner: View {
     var size: CGFloat = 12
     var lineWidth: CGFloat = 1.5
     @Environment(\.tk) private var tk
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
-        TimelineView(.animation) { ctx in
-            let t = ctx.date.timeIntervalSinceReferenceDate
-            let angle = (t.truncatingRemainder(dividingBy: 0.9) / 0.9) * 360
-            ZStack {
-                Circle().stroke(tk.line2, lineWidth: lineWidth)
-                Circle().trim(from: 0, to: 0.25)
-                    .stroke(tk.amber, style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
-                    .rotationEffect(.degrees(angle))
+        Group {
+            if reduceMotion {
+                ring(angle: 0)
+            } else {
+                TimelineView(.animation) { ctx in
+                    let t = ctx.date.timeIntervalSinceReferenceDate
+                    ring(angle: (t.truncatingRemainder(dividingBy: 0.9) / 0.9) * 360)
+                }
             }
-            .frame(width: size, height: size)
+        }
+        .frame(width: size, height: size)
+        .accessibilityLabel("Working")
+    }
+
+    private func ring(angle: Double) -> some View {
+        ZStack {
+            Circle().stroke(tk.line2, lineWidth: lineWidth)
+            Circle().trim(from: 0, to: 0.25)
+                .stroke(tk.amber, style: StrokeStyle(lineWidth: lineWidth, lineCap: .butt))
+                .rotationEffect(.degrees(angle))
         }
         .frame(width: size, height: size)
     }
@@ -190,15 +201,24 @@ struct Spinner: View {
 // ── Streaming caret ──
 struct Caret: View {
     @Environment(\.tk) private var tk
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
     var body: some View {
-        TimelineView(.periodic(from: .now, by: 0.5)) { ctx in
-            let on = Int(ctx.date.timeIntervalSinceReferenceDate * 2) % 2 == 0
-            RoundedRectangle(cornerRadius: 1)
-                .fill(tk.amber)
-                .frame(width: 7, height: 14)
-                .opacity(on ? 1 : 0)
+        Group {
+            if reduceMotion {
+                bar.opacity(1)
+            } else {
+                TimelineView(.periodic(from: .now, by: 0.5)) { ctx in
+                    let on = Int(ctx.date.timeIntervalSinceReferenceDate * 2) % 2 == 0
+                    bar.opacity(on ? 1 : 0)
+                }
+            }
         }
         .frame(width: 7, height: 14)
+        .accessibilityHidden(true)
+    }
+    private var bar: some View {
+        RoundedRectangle(cornerRadius: 1).fill(tk.amber).frame(width: 7, height: 14)
     }
 }
 

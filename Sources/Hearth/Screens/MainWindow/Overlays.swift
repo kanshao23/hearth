@@ -28,6 +28,7 @@ struct InlineApprovalSheet: View {
                 }
                 Spacer()
                 HButton(kind: .ghost, hPad: 4, vPad: 4, action: onClose) { HIcon(Ico.x, size: 12) }
+                    .help("Close").accessibilityLabel("Close")
             }
             .padding(.horizontal, 22).padding(.top, 18).padding(.bottom, 12)
 

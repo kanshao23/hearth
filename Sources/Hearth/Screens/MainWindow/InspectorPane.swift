@@ -29,6 +29,8 @@ struct InspectorPane: View {
                 }
                 .buttonStyle(.plain)
                 .padding(.horizontal, 6)
+                .help(t.label + (t.count != nil ? " · \(t.count!)" : ""))
+                .accessibilityLabel(t.label)
             }
             Spacer()
             VStack(spacing: 2) {
@@ -60,6 +62,8 @@ struct InspectorPane: View {
                 Button { st.inspectorOpen = false } label: {
                     HIcon(Ico.chevron, size: 12).foregroundStyle(tk.fg3)
                 }.buttonStyle(.plain)
+                .help("Collapse inspector")
+                .accessibilityLabel("Collapse inspector")
             }
             .padding(.horizontal, 8).frame(height: 44)
             .overlay(alignment: .bottom) { tk.line.frame(height: 1) }

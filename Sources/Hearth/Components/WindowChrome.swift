@@ -24,6 +24,8 @@ struct ThemeToggle: View {
         HButton(kind: .ghost, hPad: 6, vPad: 3, action: { theme.toggle() }) {
             HIcon(theme.isLight ? Ico.moon : Ico.sun, size: size)
         }
+        .help(theme.isLight ? "Switch to dark" : "Switch to light")
+        .accessibilityLabel(theme.isLight ? "Switch to dark theme" : "Switch to light theme")
     }
 }
 
