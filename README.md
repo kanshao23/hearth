@@ -4,6 +4,7 @@
 
 ### Local-first, multi-agent workflow OS for macOS — SwiftUI design recreation
 
+[![CI](https://github.com/kanshao23/hearth/actions/workflows/ci.yml/badge.svg)](https://github.com/kanshao23/hearth/actions/workflows/ci.yml)
 [![Platform](https://img.shields.io/badge/macOS-14%2B-555?labelColor=0b0b0e)](#requirements)
 [![Swift](https://img.shields.io/badge/Swift-6.0-e8a34a?labelColor=0b0b0e)](#requirements)
 [![SwiftUI](https://img.shields.io/badge/SwiftUI-no%20Electron-e8a34a?labelColor=0b0b0e)](#architecture)
@@ -83,7 +84,15 @@ the design canvas does; the detail pane renders each screen at its native design
 moon/sun toggle (top-right of the sidebar) flips the whole app between **dark and light
 themes**, persisted across launches.
 
-To stop a backgrounded run:
+### Launch options
+
+```bash
+swift run Hearth --list                 # print every screen id + label, then exit
+swift run Hearth --screen skill         # open straight to a screen (e.g. the skill editor)
+swift run Hearth --screen settings      # ids come from --list
+```
+
+`--screen` overrides the persisted selection for that launch. To stop a backgrounded run:
 
 ```bash
 pkill -f "debug/Hearth"
