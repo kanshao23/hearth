@@ -118,6 +118,8 @@ struct MainWindow: View {
                     HButton(kind: .ghost, hPad: 8, vPad: 3, action: { st.paletteOpen.toggle() }) {
                         HStack(spacing: 4) { HIcon(Ico.search, size: 11); Kbd("⌘⇧M", fontSize: 11) }
                     }
+                    .help("Command palette")
+                    .accessibilityLabel("Open command palette")
                 }
                 .padding(.trailing, 10)
             }

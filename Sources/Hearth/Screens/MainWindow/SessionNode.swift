@@ -31,6 +31,7 @@ struct SessionNode: View {
                     .frame(width: 14, height: 14)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel(expanded ? "Collapse \(node.title)" : "Expand \(node.title)")
             statusDot(node.status, size: 12).frame(width: 14)
             VStack(alignment: .leading, spacing: 1) {
                 Text(node.title).font(F.sans(12.5, isUnread ? .semibold : .medium))
@@ -44,6 +45,8 @@ struct SessionNode: View {
                         .foregroundStyle(isUnread ? tk.amber : tk.fg3)
                 }
                 .buttonStyle(.plain)
+                .help(isUnread ? "Mark as read" : "Mark as unread")
+                .accessibilityLabel(isUnread ? "Mark as read" : "Mark as unread")
             }
         }
         .padding(.leading, 8).padding(.trailing, 6).padding(.vertical, 6)
